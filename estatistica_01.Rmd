@@ -967,11 +967,304 @@ Problema:
 
 Suponha que os pesos de sacos de arroz de uma indústria alimentícia distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g. Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g. Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5% 
 
+
+```{r}
+
+# criando 1500 amostras de tamanho 2000 da variável Idade: 
+
+n <- 2000
+total_de_amostras <- 1500
+
+for(i in 1:total_de_amostras){
+  if(i == 1){
+    amostras <- data.frame('Amostra_1' = sample(dados$Idade, n))
+  } else{
+    amostras[paste('Amostra_', i)] <- sample(dados$Idade, n)
+    
+  }
+}
+
+amostras
+
+```
+
+
+```{r}
+
+# média aritimética de cada uma das colunas (amostras) acima: 
+
+colMeans(amostras)
+
+
+```
+
+
+```{r}
+
+# gráfico com as médias amostrais 
+
+hist(
+  x = colMeans(amostras), 
+  main = 'Histograma das Idades Médias', 
+  ylab = "idades", 
+  xlab = "Frequências"
+)
+
+
+```
+
+
+```{r}
+
+# observando a média da população: 
+
+mean(dados$Idade)
+
+```
+```{r}
+
+# média das médias das amostras: 
+  
+mean(colMeans(amostras))
+
+```
+
+
+```{r}
+
+# desvio padrão das médias 
+
+sd(colMeans(amostras))
+
+
+```
+
+Níveis de confiança e significância 
+
+O nível de confiança representa a probabilidade de acerto da estamativa. De forma forma complementar o nível de significância  (α)  expressa a probabilidade de erro da estimativa 
+
+O nível de confiança  (1 - α) representa o grau de vonfiabilidade do resultado da estimativa estar dentro de determinado intervalo. Quando fixamos em uma pesquisa um nível de confiança de 95%, por exemplo, estamos asssumindo que existe uma probabilidade de 95% dos resultados da pesquisa representarem bem a realidade, ou seja, estarem corretos. 
+Ele pode ser obtido a partir da área sob a curva normal. 
+
+
+Calculando Intervalo de Confiânça
+
+Problema: 
+
+Suponha que os pesos de sacos de arroz de uma indústria alimentícia se distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g. Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g. Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5% 
+
+```{r}
+
+media_amostral <- 5050
+significancia <- 0.05
+confiancia <- 1 - significancia
+
+# obtendo Z 
+
+tabela_normal_padronizada[17:26, ]
+
+0.095/2 
+
+0.5 + (0.95/2)
+
+# procurar na tabela o 0.975
+
+Z <- qnorm(0.975)
+desvio_padrao <- 150 
+n <- 20 
+raiz_de_n <- sqrt(20)
+sigma <- desvio_padrao/raiz_de_n
+e <- Z*sigma
+
+
+
+```
+
+```{r}
+
+# Solução 1 - Calculando o intervalo de confiança da média 
+
+intervalo <- c(media_amostral - e, 
+               media_amostral + e)
+
+intervalo
+
+# Solução 2 - Usando funçao do R basta passar os parametros para a função: 
+
+MeanCI(x = 5050, sd = sigma, type = 'norm', conf.level = 0.95, sides = 'two.sided')
+
+```
+
+```{r}
+
+# Calculando o intervalo de confiança para a população 
+
+sigma <- sd(dados$Idade) / sqrt(nrow(dados))
+MeanCI(mean(dados$Idade), sd = sigma, type = 'norm', conf.level = 0.95, sides = 'two.sided')
+
+
+```
+
+Valores de Z para os níveis de confiança mais utilizados 
+
+```{r}
+
+nivel_confianca_mais_usados <- tibble(`Nivel de Confiança` = c("90%", "95%", "99%"),`Valor da àrea sob a curva normal` = c(0.95, 0.975, 0.995), Z = c(1.645, 1.96, 2.575))
+nivel_confianca_mais_usados
+```
+
+Para estimar o valor médio gasto por cada cliente de uma grande rede de fast food, foi selecionada uma amostra de 50 clientes. Assumindo que o valor do desvio padrão da população seja de R$ 6,00 e que essa população se distribui normalmente, obtenha a margem de erro desta estimativa, para um nível de confiança de 95%.
+
+```{r}
+
+
+n <- 50
+desvio_padrao <- 6
+nivel_confianca <- 0.95
+probabilidade <- 0.5 + (nivel_confianca / 2)
+Z <- qnorm(probabilidade)
+
+e <- Z * (desvio_padrao / sqrt(n))
+round(e, 2)
+
+
+```
+
+Uma amostra aleatória simples de 1976 itens de uma população normalmente distribuída, com desvio padrão igual a 11, resultou em uma média amostral de 28. Qual o intervalo de confiança de 90% para a média populacional?
+
+```{r}
+
+n <- 1976
+desvio_padrao <- 11
+nivel_confianca <- 0.9
+media_amostral <- 28
+
+sigma <- 11 / sqrt(n)
+MeanCI(x = media_amostral, sd = sigma, type = 'norm', conf.level = 0.9, sides = 'two.sided')
+
+
+```
+
+Os voos de determinada ponte aérea apresentam duração normalmente distribuída, com média igual a 120 minutos e desvio padrão igual a 20 minutos. Responda as seguintes perguntas:
+
+    Qual a probabilidade de um voo durar menos de 110 minutos?
+    Qual a probabilidade de um voo durar mais de 90 minutos?
+    Qual a duração mínima de 80% das viagens?
+    
+    
+```{r}
+
+media <- 120
+desvio_padrao <- 20
+
+# 1. Qual a probabilidade de um voo durar menos de 110 min?
+Z = (110 - media) / desvio_padrao
+
+probabilidade <- pnorm(Z)
+round(probabilidade, 4)
+
+# 2. Qual a probabilidade de um voo durar mais de 90 min?
+Z = (90 - media) / desvio_padrao
+
+probabilidade <- pnorm(-Z)
+round(probabilidade, 4)
+
+# 3. Qual a duração mínima de 80% das viagens?
+Z <- -qnorm(0.80)
+x <- Z * desvio_padrao + media
+
+round(x, 1)
+
+```
+
+
+
+Calculando o tamanho da amostra 
+
+* Caso da população infinita *
+
+Poblema
+
+Estamos estudando o rendimento mensal dos chefes de domícilios no Brasil. Nosso supervisor determinou que o erro máximo em relação a média seja de R$ 100. Sabemos que o desvio padrão populacional deste grupo de trabalhadores é de 3.323,39 reais. Para um nível de confiança de 95% qual deve ser o tamanho da amostra do nosso estudo? 
+
+```{r}
+
+# Obter o Z 
+
+
+0.5 + (0.95/2) # área sob a curva 
+z <- qnorm(0.975) 
+
+# Obtendo sigma 
+
+sigma <- 3323.39
+
+# erro: 
+
+e <- 100
+
+# obtendo o n 
+
+n <- (z * (sigma/e))**2 
+round(n)
+
+
+```
+
+O valor do gasto médio dos clientes de uma loja de conveniência é de R$ 45,50. Assumindo que o desvio padrão dos gastos é igual a R$ 15,00, qual deve ser o tamanho da amostra para estimarmos a média populacional, com um nível de significância de 10%? Considere que o erro máximo aceitável seja de 10%.
+
+```{r}
+
+media <- 45.5
+desvio_padrao <- 15
+e <- 0.1
+significancia <- 0.1
+confianca <- 1 - significancia
+
+Z <- qnorm(0.5 + (confianca / 2))
+e <- e * media
+
+n = ( Z * ( desvio_padrao / e ) ) ** 2
+round(n)
+
+```
+
+Uma amostra com 40 cupons fiscais, coletados aleatoriamente em um shopping center, apresentou um desvio padrão do total pago igual a R$ 42,00. A associação de lojistas precisa estimar a média populacional das vendas, com um erro máximo igual a R$ 6,00 e empregando um nível de confiança igual a 90%. Qual o tamanho da amostra a analisar?
+
 ```{r}
 
 
 
 ```
+
+
+
+* Caso da população finita *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
