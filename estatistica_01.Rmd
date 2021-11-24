@@ -3,6 +3,8 @@ title: "R Notebook"
 output: html_notebook
 editor_options: 
   chunk_output_type: inline
+  markdown: 
+    wrap: sentence
 ---
 
 ```{r}
@@ -41,12 +43,14 @@ glue('De {min(dados$Idade)} até {max(dados$Idade)} anos')
 
 table(dados$Sexo)
 ```
+
 ```{r}
 
 # porcentagem 
 
 prop.table(table(dados$Sexo))*100 
 ```
+
 ```{r}
 
 # tabelinha de frequência
@@ -56,6 +60,7 @@ dist_freq_qualitativas <- cbind(freq = table(dados$Sexo), percent = prop.table(t
 dist_freq_qualitativas
 
 ```
+
 ```{r}
 
 # renomeando o título das variáveis na tabela: 
@@ -89,7 +94,6 @@ percentual
 
 
 ```
-
 
 ```{r}
 
@@ -139,7 +143,6 @@ dist_freq_quantitativas_personalizadas[order(row.names(dist_freq_quantitativas_p
 
 ```
 
-
 ```{r}
 
 
@@ -181,7 +184,6 @@ hist(
 
 ```
 
-
 ```{r}
 
 # histogram com ggplot 
@@ -204,7 +206,6 @@ ggplot(dados, aes(x = Altura, y = ..density..))+
 
 ```
 
-
 ```{r}
 
 # salvando o formato do gráfico numa variável
@@ -220,8 +221,6 @@ formato <-  theme_minimal()+
   )
 
 ```
-
-
 
 ```{r}
 
@@ -240,7 +239,7 @@ ggplot(bar_chart, aes(x = row.names(bar_chart), y = bar_chart$Frequência))+
 
 ```
 
-Medidas de tendência central 
+Medidas de tendência central
 
 ```{r}
 
@@ -258,6 +257,7 @@ df
 
 
 ```
+
 ```{r}
 
 # média
@@ -284,7 +284,6 @@ Media(dados$Renda)
 
 ```
 
-
 ```{r}
 
 mean(dados$Renda)
@@ -294,14 +293,15 @@ mean(dados$Renda)
 aggregate(list(Renda = dados$Renda), list(Sexo = dados$Sexo), mean)
 
 ```
-Mediana passo a passo: 
 
-1. ordenar o conjunto de dados
-2. identificar o número de observações (registros) do conjunto de dados
-3. Identificar o elemento mediano 
-4. Quando n for impar a posição do elemento mediano será obtido da seguinte forma: n + 1 /2 
-5. Quando n for par a posição do elemento mediano é obtida: n/2 
-6. 
+Mediana passo a passo:
+
+1.  ordenar o conjunto de dados
+2.  identificar o número de observações (registros) do conjunto de dados
+3.  Identificar o elemento mediano
+4.  Quando n for impar a posição do elemento mediano será obtido da seguinte forma: n + 1 /2
+5.  Quando n for par a posição do elemento mediano é obtida: n/2
+6.  
 
 ```{r}
 
@@ -327,7 +327,7 @@ df_fulano[elemento_md, ]
 median(df$Fulano)
 ```
 
-A moda é mais usada para dados qualitativos, é o valor mais frequente. 
+A moda é mais usada para dados qualitativos, é o valor mais frequente.
 
 ```{r}
 
@@ -364,7 +364,7 @@ Moda(dados$Altura) # geralmente dados quanti.contínuos tem várias modas
 
 ```
 
-Relações entre medidas de tendência central 
+Relações entre medidas de tendência central
 
 ```{r}
 
@@ -376,7 +376,7 @@ ggplot(dados[dados$Renda < 20000, ], aes(x = Renda, y = ..density..)) +    geom_
 
 ```
 
-A relação MODA < MEDIANA < MÉDIA indica que a distribuição é assimétrica à direita: 
+A relação MODA \< MEDIANA \< MÉDIA indica que a distribuição é assimétrica à direita:
 
 ```{r}
 
@@ -398,6 +398,7 @@ Media <- mean(dados$Renda)
 Media
 
 ```
+
 ```{r}
 
 # avaliando a variável altura 
@@ -410,7 +411,6 @@ ggplot(dados, aes(x = Altura, y = ..density..)) +
 
 
 ```
-
 
 ```{r}
 
@@ -435,10 +435,7 @@ media
 
 Quartis, decis e percentis - ajudam a entender a tendência central dos dados
 
-quartis: dividem a série de dados em quatro partes iguais
-decis: dez partes iguais
-percentis: cem partes iguais 
-
+quartis: dividem a série de dados em quatro partes iguais decis: dez partes iguais percentis: cem partes iguais
 
 ```{r}
 
@@ -485,7 +482,6 @@ quantile(dados$Renda, .99)
 
 ```
 
-
 ```{r}
 
 ggplot(dados, aes(x = Idade)) +
@@ -495,7 +491,6 @@ ggplot(dados, aes(x = Idade)) +
 
 
 ```
-
 
 ```{r}
 
@@ -552,10 +547,8 @@ variancia
 
 ```
 
+Desvio padrão é a raiz quadrada da variância
 
- Desvio padrão é a raiz quadrada da variância 
- 
- 
 ```{r}
 
 # obtendo a raiz quadrada da variância: 
@@ -584,9 +577,9 @@ dataset %>% filter(Sexo == "M") %>%
 sd(dataset$Idade)
 ```
 
-Distribuições de probabilidades: 
+Distribuições de probabilidades:
 
-1. Distribuição Binomial 
+1.  Distribuição Binomial
 
 Um experimento binomial tem duas características básicas: a) somente dois resultados são possíveis, como verdadeiro ou falso, cara ou coroa e; b) Todos os ensaios realizados precisam ter a mesma configuração.
 
@@ -623,7 +616,9 @@ probabilidade
 sprintf('Combinações = %d e Probabilidade = %0.15f', combinacoes, probabilidade)
 
 ```
-Problema: Um dado de seis faces, não viciado, é lançado para o alto quatro vezes. Utilizando a distribuição binomial, obtenha a probabilidade de o dado cair com um número par voltado para cima duas vezes.
+
+Problema: Um dado de seis faces, não viciado, é lançado para o alto quatro vezes.
+Utilizando a distribuição binomial, obtenha a probabilidade de o dado cair com um número par voltado para cima duas vezes.
 
 ```{r}
 
@@ -635,7 +630,8 @@ dbinom(x = k, size = n, prob = p)
 
 ```
 
-Um dado de seis faces, perfeitamente equilibrado, é lançado para o alto dez vezes. Utilizando a distribuição binomial, obtenha a probabilidade de o dado cair com o número 5 voltado para cima pelo menos três vezes.
+Um dado de seis faces, perfeitamente equilibrado, é lançado para o alto dez vezes.
+Utilizando a distribuição binomial, obtenha a probabilidade de o dado cair com o número 5 voltado para cima pelo menos três vezes.
 
 ```{r}
 
@@ -645,7 +641,8 @@ n = 10       # Total de lançamentos
 pbinom(q = 2, size = n, prob = p, lower.tail = F)
 ```
 
-Suponha que a probabilidade de se contrair o novo Coronavírus seja de 70%. Em um grupo de 1500 famílias, com 5 pessoas cada, quantas podemos esperar que tenham apenas dois contaminados?
+Suponha que a probabilidade de se contrair o novo Coronavírus seja de 70%.
+Em um grupo de 1500 famílias, com 5 pessoas cada, quantas podemos esperar que tenham apenas dois contaminados?
 
 ```{r}
 
@@ -663,17 +660,17 @@ round(media)
 
 ```
 
-Distribuição de Poison 
+Distribuição de Poison
 
-É empregaa para descrever o número de ocorrências em um intervalo de tempo ou espaço específico. Os eventos são caracterizados pela possibilidade de contagem dos sucessos, mas não a possibilidade de contagem dos fracassos. 
+É empregada para descrever o número de ocorrências em um intervalo de tempo ou espaço específico.
+Os eventos são caracterizados pela possibilidade de contagem dos sucessos, mas não a possibilidade de contagem dos fracassos.
 Exemplos: o numero de clients que entram em uma loja em determinada hora, o número de carros que chegam em um drive-thru de uma lanchonete no horário de almoço...
-
 
 ```{r}
 
 # Um restaurante recebe em média 20 pedidos por hora. Qual a chance de que, em determinada hora escolhida ao acaso ele receba 15 pedidos? 
 
-# 1° parte: Qual o número médio de ocorrÊncias or hora? (mi)
+# 1° parte: Qual o número médio de ocorrências por hora? (mi)
 
 media <- 20
 
@@ -692,8 +689,8 @@ probabilidade
 
 ```
 
-
-O número médio de clientes que entram em uma padaria por hora é igual a 20. Obtenha a probabilidade de, na próxima hora, entrarem exatamente 25 clientes
+O número médio de clientes que entram em uma padaria por hora é igual a 20.
+Obtenha a probabilidade de, na próxima hora, entrarem exatamente 25 clientes
 
 ```{r}
 
@@ -706,18 +703,31 @@ probabilidade_2
 
 ```
 
+Uma concessionária tem suas vendas distribuídas de acordo com uma distribuição de Poisson. Sabendo-se que a concessionária vende em média 12 carros por mês (30 dias) e avaliando apenas uma quinzena de vendas (15 dias), qual a probabilidade de a empresa vender apenas 7 carros?
+
+
+```{r}
+
+media <- 12/2 
+k <- 7
+
+probabilidade_3 <- dpois(x = k, lambda = media)*100
+
+```
+
+
 Distribuição normal
 
 É uma das mais utilizadas, é uma distribuição contínua, onde a distribuição de frequências de uma variável quantitativa apresenta a forma de sino e é simétrica em relação a sua média (50% pra esquerda e 50% para a esquerda)
 
-Problema que pode ser resolvido com distribuição normal: 
+Problema que pode ser resolvido com distribuição normal:
 
-Em um estudo sobre as alturas dos moradores de uma cidade verificou-se que o conjunto de dados segue uma distribuição normal, com média 1,70 e desvio padrão de 0,1. Com esta informação obtenha o seguinte conjunto de probabilidades: 
+Em um estudo sobre as alturas dos moradores de uma cidade verificou-se que o conjunto de dados segue uma distribuição normal, com média 1,70 e desvio padrão de 0,1.
+Com esta informação obtenha o seguinte conjunto de probabilidades:
 
-a. probabilidade de uma pessoa selecionada ao acado ter menos de 1,80 metros
-b. probabilidade de uma pessoa selecionada ao acaso ter entre 1,60 e 1,80 metros
-c. probabilidae de uma pessoa selecionada ao acaso ter mais de 1,90 metros
-
+a.  probabilidade de uma pessoa selecionada ao acado ter menos de 1,80 metros
+b.  probabilidade de uma pessoa selecionada ao acaso ter entre 1,60 e 1,80 metros
+c.  probabilidae de uma pessoa selecionada ao acaso ter mais de 1,90 metros
 
 Construindo uma Tabela Normal padronizadas
 
@@ -736,7 +746,7 @@ as.data.frame(tabela_normal_padronizada)
 ```
 
 o conjunto de dados segue uma distribuição normal, com média 1,70 e desvio padrão de 0,1.
-Qual a probabilidade de uma pessoa selecionada ao acado ter menos de 1,80 metros? 
+Qual a probabilidade de uma pessoa selecionada ao acado ter menos de 1,80 metros?
 
 ```{r}
 
@@ -757,7 +767,7 @@ pnorm(Z)
 
 ```
 
-b. probabilidade de uma pessoa selecionada ao acaso ter entre 1,60 e 1,80 metros
+b.  probabilidade de uma pessoa selecionada ao acaso ter entre 1,60 e 1,80 metros
 
 ```{r}
 
@@ -777,12 +787,11 @@ probabilidade < - pnorm(Z_superior) - (pnorm(Z_inferior))
 
 ```
 
-O faturamento diário de um motorista de aplicativo segue uma distribuição aproximadamente normal, com média R$ 300,00 e desvio padrão igual a R$ 50,00. Obtenha as probabilidades de que, em um dia aleatório, o motorista ganhe:
+O faturamento diário de um motorista de aplicativo segue uma distribuição aproximadamente normal, com média R\$ 300,00 e desvio padrão igual a R\$ 50,00.
+Obtenha as probabilidades de que, em um dia aleatório, o motorista ganhe:
 
     Entre R$ 250,00 e R$ 350,00
     Entre R$ 400,00 e R$ 500,00
-
-
 
 ```{r}
 
@@ -806,7 +815,8 @@ round(probabilidade, 4)
 
 ```
 
-Os pesos dos lutadores de uma academia de MMA, com 500 atletas, são normalmente distribuídos, com média igual a 80,5 kg e desvio padrão igual a 12,2 kg. Encontre o número de atletas dessa academia que se enquadram na categoria peso leve, que vai de 65,7 kg até 70,3 kg.
+Os pesos dos lutadores de uma academia de MMA, com 500 atletas, são normalmente distribuídos, com média igual a 80,5 kg e desvio padrão igual a 12,2 kg.
+Encontre o número de atletas dessa academia que se enquadram na categoria peso leve, que vai de 65,7 kg até 70,3 kg.
 
 ```{r}
 
@@ -822,7 +832,7 @@ round(n)
 
 ```
 
-c. probabilidae de uma pessoa selecionada ao acaso ter mais de 1,90 metros
+c.  probabilidae de uma pessoa selecionada ao acaso ter mais de 1,90 metros
 
 ```{r}
 
@@ -843,12 +853,12 @@ probabilidade <- pnorm(- Z)
 
 ```
 
-O Inmetro verificou que as lâmpadas incandescentes da fabricante XPTO apresentam uma vida útil normalmente distribuída, com média igual a 720 dias e desvio padrão igual a 30 dias. Calcule a probabilidade de uma lâmpada escolhida ao acaso durar:
+O Inmetro verificou que as lâmpadas incandescentes da fabricante XPTO apresentam uma vida útil normalmente distribuída, com média igual a 720 dias e desvio padrão igual a 30 dias.
+Calcule a probabilidade de uma lâmpada escolhida ao acaso durar:
 
     Entre 650 e 750 dias
     Mais que 800 dias
     Menos que 700 dias
-
 
 ```{r}
 
@@ -903,8 +913,9 @@ round(pnorm(-0.78), 4)
 
 ```
 
-
-O tempo para concluir uma prova de concurso público se distribui normalmente, com uma média de 80 minutos e desvio padrão de 10 minutos. Suponha que uma das salas de prova tenha 60 candidatos e que a duração da prova seja de 90 minutos. Quantos candidatos você acha que não conseguirão concluir a prova no tempo determinado?
+O tempo para concluir uma prova de concurso público se distribui normalmente, com uma média de 80 minutos e desvio padrão de 10 minutos.
+Suponha que uma das salas de prova tenha 60 candidatos e que a duração da prova seja de 90 minutos.
+Quantos candidatos você acha que não conseguirão concluir a prova no tempo determinado?
 
 Observação: Utilize a função round() para arredondar o resultado obtido.
 
@@ -922,12 +933,11 @@ round(n)
 
 ```
 
-Amostragem 
+Amostragem
 
-a) Amostragem aleatória simples 
+a)  Amostragem aleatória simples
 
-objetivo de manter as características básicas da população, cada elemento deve ter a mesma chance de seleção. 
-
+objetivo de manter as características básicas da população, cada elemento deve ter a mesma chance de seleção.
 
 ```{r}
 
@@ -944,29 +954,31 @@ prop.table(table(amostra$Sexo))
 
 ```
 
+b)  Amostragem estratificada: é uma amostragem que cria subgrupos antes de selecionar a amostra, por exemplo classes econômicas: classe A, classe B
 
-b) Amostragem estratificada: é uma amostragem que cria subgrupos antes de selecionar a amostra, por exemplo classes econômicas: classe A, classe B
-
-c) Amostragem por conglomerado: são criados grupos heterogêneos, como por exemplo divisão da pop. em grupos territoriais diversos entre si. É comum fazer a amostragem estratificada e aleatória depois da amostragem por conglomerado. 
-
+c)  Amostragem por conglomerado: são criados grupos heterogêneos, como por exemplo divisão da pop.
+    em grupos territoriais diversos entre si.
+    É comum fazer a amostragem estratificada e aleatória depois da amostragem por conglomerado.
 
 Teorema de limite central
 
-Esse teorema afirma que, com o aumento do tamanho da amostra, a distribuição das médias amostrais se aproxima de uma distribuição normal com média igual a média da população e desvio padrão igual ao desvio padrão da variável original divido pela raiz quadrada do tamanho da amostra. Este fato é assegurado para n maior ou igual a 30. 
+Esse teorema afirma que, com o aumento do tamanho da amostra, a distribuição das médias amostrais se aproxima de uma distribuição normal com média igual a média da população e desvio padrão igual ao desvio padrão da variável original divido pela raiz quadrada do tamanho da amostra.
+Este fato é assegurado para n maior ou igual a 30.
 
-O desvio padrão das médias amostrais é conhecido como erro padrão da média. 
+O desvio padrão das médias amostrais é conhecido como erro padrão da média.
 
-Estimação 
+Estimação
 
-É a forma de se fazer suposições generalizadas sobre os parâmentros de uma população tendo como base as informações de amostra. 
+É a forma de se fazer suposições generalizadas sobre os parâmentros de uma população tendo como base as informações de amostra.
 
 Parâmetros: são os atributos numéricos de uma população, tal como a média e a mediana.
-Estimativa: é o valor obtido para determinado parâmetro a partir dos dados de uma amostra da população. 
+Estimativa: é o valor obtido para determinado parâmetro a partir dos dados de uma amostra da população.
 
-Problema: 
+Problema:
 
-Suponha que os pesos de sacos de arroz de uma indústria alimentícia distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g. Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g. Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5% 
-
+Suponha que os pesos de sacos de arroz de uma indústria alimentícia distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g.
+Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g.
+Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5%
 
 ```{r}
 
@@ -988,7 +1000,6 @@ amostras
 
 ```
 
-
 ```{r}
 
 # média aritimética de cada uma das colunas (amostras) acima: 
@@ -997,7 +1008,6 @@ colMeans(amostras)
 
 
 ```
-
 
 ```{r}
 
@@ -1013,7 +1023,6 @@ hist(
 
 ```
 
-
 ```{r}
 
 # observando a média da população: 
@@ -1021,6 +1030,7 @@ hist(
 mean(dados$Idade)
 
 ```
+
 ```{r}
 
 # média das médias das amostras: 
@@ -1028,7 +1038,6 @@ mean(dados$Idade)
 mean(colMeans(amostras))
 
 ```
-
 
 ```{r}
 
@@ -1039,19 +1048,22 @@ sd(colMeans(amostras))
 
 ```
 
-Níveis de confiança e significância 
+Níveis de confiança e significância
 
-O nível de confiança representa a probabilidade de acerto da estamativa. De forma forma complementar o nível de significância  (α)  expressa a probabilidade de erro da estimativa 
+O nível de confiança representa a probabilidade de acerto da estamativa.
+De forma complementar o nível de significância (α) expressa a probabilidade de erro da estimativa
 
-O nível de confiança  (1 - α) representa o grau de vonfiabilidade do resultado da estimativa estar dentro de determinado intervalo. Quando fixamos em uma pesquisa um nível de confiança de 95%, por exemplo, estamos asssumindo que existe uma probabilidade de 95% dos resultados da pesquisa representarem bem a realidade, ou seja, estarem corretos. 
-Ele pode ser obtido a partir da área sob a curva normal. 
-
+O nível de confiança (1 - α) representa o grau de vonfiabilidade do resultado da estimativa estar dentro de determinado intervalo.
+Quando fixamos em uma pesquisa um nível de confiança de 95%, por exemplo, estamos asssumindo que existe uma probabilidade de 95% dos resultados da pesquisa representarem bem a realidade, ou seja, estarem corretos.
+Ele pode ser obtido a partir da área sob a curva normal.
 
 Calculando Intervalo de Confiânça
 
-Problema: 
+Problema:
 
-Suponha que os pesos de sacos de arroz de uma indústria alimentícia se distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g. Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g. Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5% 
+Suponha que os pesos de sacos de arroz de uma indústria alimentícia se distribuem aproximadamente como uma normal de desvio padrão populacional igual a 150g.
+Selecionada uma amostra aleatória de 20 sacos de um lote específico, obteve-se um peso médio de 5.050g.
+Construa um intervalo de confiança para a média populacional assumindo um nível de significância de 5%
 
 ```{r}
 
@@ -1105,7 +1117,7 @@ MeanCI(mean(dados$Idade), sd = sigma, type = 'norm', conf.level = 0.95, sides = 
 
 ```
 
-Valores de Z para os níveis de confiança mais utilizados 
+Valores de Z para os níveis de confiança mais utilizados
 
 ```{r}
 
@@ -1113,7 +1125,8 @@ nivel_confianca_mais_usados <- tibble(`Nivel de Confiança` = c("90%", "95%", "9
 nivel_confianca_mais_usados
 ```
 
-Para estimar o valor médio gasto por cada cliente de uma grande rede de fast food, foi selecionada uma amostra de 50 clientes. Assumindo que o valor do desvio padrão da população seja de R$ 6,00 e que essa população se distribui normalmente, obtenha a margem de erro desta estimativa, para um nível de confiança de 95%.
+Para estimar o valor médio gasto por cada cliente de uma grande rede de fast food, foi selecionada uma amostra de 50 clientes.
+Assumindo que o valor do desvio padrão da população seja de R\$ 6,00 e que essa população se distribui normalmente, obtenha a margem de erro desta estimativa, para um nível de confiança de 95%.
 
 ```{r}
 
@@ -1130,7 +1143,8 @@ round(e, 2)
 
 ```
 
-Uma amostra aleatória simples de 1976 itens de uma população normalmente distribuída, com desvio padrão igual a 11, resultou em uma média amostral de 28. Qual o intervalo de confiança de 90% para a média populacional?
+Uma amostra aleatória simples de 1976 itens de uma população normalmente distribuída, com desvio padrão igual a 11, resultou em uma média amostral de 28.
+Qual o intervalo de confiança de 90% para a média populacional?
 
 ```{r}
 
@@ -1145,13 +1159,13 @@ MeanCI(x = media_amostral, sd = sigma, type = 'norm', conf.level = 0.9, sides = 
 
 ```
 
-Os voos de determinada ponte aérea apresentam duração normalmente distribuída, com média igual a 120 minutos e desvio padrão igual a 20 minutos. Responda as seguintes perguntas:
+Os voos de determinada ponte aérea apresentam duração normalmente distribuída, com média igual a 120 minutos e desvio padrão igual a 20 minutos.
+Responda as seguintes perguntas:
 
     Qual a probabilidade de um voo durar menos de 110 minutos?
     Qual a probabilidade de um voo durar mais de 90 minutos?
     Qual a duração mínima de 80% das viagens?
-    
-    
+
 ```{r}
 
 media <- 120
@@ -1177,15 +1191,21 @@ round(x, 1)
 
 ```
 
+Calculando o tamanho da amostra
 
+-   Caso da população infinita \*
 
-Calculando o tamanho da amostra 
+Obseração: 
 
-* Caso da população infinita *
+1. O desvio padrão e o erro devem estar na mesma unidade de medida 
+2. Quando o erro for representado em termos percentuais, deve ser interpretado como um percentual relacionado à média
 
 Poblema
 
-Estamos estudando o rendimento mensal dos chefes de domícilios no Brasil. Nosso supervisor determinou que o erro máximo em relação a média seja de R$ 100. Sabemos que o desvio padrão populacional deste grupo de trabalhadores é de 3.323,39 reais. Para um nível de confiança de 95% qual deve ser o tamanho da amostra do nosso estudo? 
+Estamos estudando o rendimento mensal dos chefes de domícilios no Brasil.
+Nosso supervisor determinou que o erro máximo em relação a média seja de R$ 100.
+Sabemos que o desvio padrão populacional deste grupo de trabalhadores é de 3.323,39 reais.
+Para um nível de confiança de 95% qual deve ser o tamanho da amostra do nosso estudo?
 
 ```{r}
 
@@ -1211,7 +1231,9 @@ round(n)
 
 ```
 
-O valor do gasto médio dos clientes de uma loja de conveniência é de R$ 45,50. Assumindo que o desvio padrão dos gastos é igual a R$ 15,00, qual deve ser o tamanho da amostra para estimarmos a média populacional, com um nível de significância de 10%? Considere que o erro máximo aceitável seja de 10%.
+O valor do gasto médio dos clientes de uma loja de conveniência é de R$ 45,50.
+Assumindo que o desvio padrão dos gastos é igual a R\$ 15,00, qual deve ser o tamanho da amostra para estimarmos a média populacional, com um nível de significância de 10%?
+Considere que o erro máximo aceitável seja de 10%.
 
 ```{r}
 
@@ -1229,39 +1251,75 @@ round(n)
 
 ```
 
-Uma amostra com 40 cupons fiscais, coletados aleatoriamente em um shopping center, apresentou um desvio padrão do total pago igual a R$ 42,00. A associação de lojistas precisa estimar a média populacional das vendas, com um erro máximo igual a R$ 6,00 e empregando um nível de confiança igual a 90%. Qual o tamanho da amostra a analisar?
+Uma amostra com 40 cupons fiscais, coletados aleatoriamente em um shopping center, apresentou um desvio padrão do total pago igual a R\$ 42,00.
+A associação de lojistas precisa estimar a média populacional das vendas, com um erro máximo igual a R\$ 6,00 e empregando um nível de confiança igual a 90%.
+Qual o tamanho da amostra a analisar?
+
 
 ```{r}
 
+desvio_padrao <- 42
+e <- 6
+confianca <- 0.9
 
+Z <- qnorm(0.5 + (confianca / 2))
+
+n = ( Z * ( desvio_padrao / e ) ) ** 2
+round(n)
 
 ```
 
 
+-   Caso da população finita em variáveis quantitativas
 
-* Caso da população finita *
+Problema: 
+
+Em um lote de 10 mil latas de refrigerante foi realizada uma amostra aleatória simples de 100 latas e foi obtido o desvio padrão amostral do conteúdo das latas igual a 12 mil. O fabricante estipula um erro máximo sobre a média populacional de apenas 5 ml. Para garantir um nível de confiança de 95% qual o tamanho de amostra deve ser selecionada para este estudo? 
+
+```{r}
+
+N <- 10000
+s <- 12
+e <-  5
+
+# otendo o Z 
+
+z <- qnorm(0.5 + 0.95/2)
+
+# aplicando a fórmula:
+
+n <- ((z**2)* (s ** 2) * (N)) / (((z**2)) + (e **2)*(N-1))
+round(n) 
+  
 
 
+```
+
+Um fabricante de farinha verificou em uma amostra aleatória formada por 200 sacos de 25 kg de um lote formado por 2.000 sacos apresentou um desvio padrão amostral do peso igual a 480 g. Considerando um erro máximo associado à média populacional igual a 0,3 kg e um nível de confiança igual a 95%, qual o tamanho de amostra deveria ser selecionado para obtermos uma estimativa confiável do parâmetro populacional?
+
+```{r}
+
+N <- 2000
+s <- 480
+e <- 0.3 * 1000   # Convertendo kg para g
+
+# otendo o Z 
+
+z <- qnorm(0.5 + 0.95/2)
+
+# aplicando a fórmula:
+
+n <- ((z**2)* (s ** 2) * (N)) / (((z**2)) + (e **2)*(N-1))
+round(n) 
 
 
+```
 
+Resumo:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. Um evento binomial é caracterizado pela possibilidade de ocorrência de apenas duas categorias. Essas categorias, somadas, representam todo o espaço amostral, sendo também mutuamente excludentes, ou seja, a ocorrência de uma implica na não ocorrência da outra
+2. A distribuição Poisson é empregada para descrever o número de ocorrências em um intervalo de tempo ou espaço específico. Os eventos são caracterizados pela possibilidade de contagem dos sucessos, mas a não possibilidade de contagem dos fracassos
+3. A distribuição Normal é uma distribuição contínua e é ssimétrica em relação a sua média
 
 
 
